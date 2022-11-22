@@ -3,7 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity"
     android:background="@drawable/main_screen">
+
+    <ImageView
+        android:id="@+id/calendar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="84dp"
+        android:contentDescription="@string/open_calendar"
+        android:title="@string/calendar"
+        android:visibility="visible"
+        android:visible="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:showAsAction="ifRoom"
+        app:srcCompat="@drawable/ic_baseline_calendar_month_24"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
