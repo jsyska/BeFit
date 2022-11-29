@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1059852248440",
+    "project_id": "befit-d9c7f",
+    "storage_bucket": "befit-d9c7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059852248440:android:330dce187ce5b0039bd48d",
+        "android_client_info": {
+          "package_name": "com.example.befit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059852248440-n7r82oj438g8vkhk6e0bnsaimn9ggabh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5Fu0NyBO7Lwx36hKwhu5Q9vWEhLk4eqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059852248440-n7r82oj438g8vkhk6e0bnsaimn9ggabh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
