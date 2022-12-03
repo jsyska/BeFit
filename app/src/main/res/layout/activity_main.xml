@@ -1,26 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".MainActivity"
-    android:background="@drawable/main_screen">
+    tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/calendar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="84dp"
-        android:contentDescription="@string/open_calendar"
-        android:title="@string/calendar"
-        android:visibility="visible"
-        android:visible="true"
+        android:id="@+id/top_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:contentDescription="@string/TopAppBar"
+        android:scaleType="centerCrop"
+        android:src="@drawable/top_appbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/list_container"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:contentDescription="@string/ListContainer"
+        android:scaleType="centerCrop"
+        android:src="@drawable/list_container"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="44dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/settingsButton"
+        android:src="@drawable/ic_baseline_settings_48"
+        app:layout_constraintBottom_toBottomOf="@+id/top_appbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/date"
+        android:text="23/10/22"
+        android:textColor="@color/primary"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/day"
+        app:layout_constraintEnd_toEndOf="@+id/logo"
+        app:layout_constraintHorizontal_bias="0.785"
+        app:layout_constraintStart_toStartOf="@+id/logo"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/day"
+        android:text="Monday"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/primary"
+        android:textFontWeight="600"
+        android:textSize="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/top_appbar"
+        app:layout_constraintEnd_toEndOf="@+id/logo"
+        app:layout_constraintHorizontal_bias="0.346"
+        app:layout_constraintStart_toStartOf="@+id/logo" />
+
+    <ImageButton
+        android:id="@+id/calendarButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginBottom="44dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/calendarButton"
+        android:src="@drawable/ic_baseline_calendar_month_48"
+        app:layout_constraintBottom_toBottomOf="@+id/top_appbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:showAsAction="ifRoom"
-        app:srcCompat="@drawable/ic_baseline_calendar_month_24"
-        tools:visibility="visible" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="RedundantDescriptionCheck" />
+
+    <ImageButton
+        android:id="@+id/addButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="44dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/calendarButton"
+        android:src="@drawable/ic_baseline_add_circle_48"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/list_container"
+        tools:ignore="RedundantDescriptionCheck" />
+
+    <ImageButton
+        android:id="@+id/copyButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="28dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/calendarButton"
+        android:src="@drawable/ic_baseline_content_copy_48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/list_container"
+        tools:ignore="RedundantDescriptionCheck" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="89dp"
+        android:layout_height="66dp"
+        android:contentDescription="@string/logoImage"
+        app:layout_constraintBottom_toBottomOf="@+id/top_appbar"
+        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintStart_toEndOf="@+id/calendarButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.402"
+        app:srcCompat="@drawable/befit_logo" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,20 @@
 package com.example.befit
 
-import androidx.appcompat.app.AppCompatActivity
+import android.R.attr.timeZone
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.example.befit.databinding.ActivityMainBinding
 import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.SimpleDateFormat
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
+    private val dateFormat = SimpleDateFormat("dd/MM/yy")
+    private val dayFormat =  SimpleDateFormat("EEEE")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -28,9 +32,17 @@ class MainActivity : AppCompatActivity() {
                 .setTitleText("Select date")
                 .build()
 
+        binding.date.text = dateFormat.format(datePicker.selection)
+        binding.day.text = dayFormat.format(datePicker.selection)
 
-        binding.calendar.setOnClickListener {
+
+        binding.calendarButton.setOnClickListener {
             datePicker.show(supportFragmentManager, "tag")
+        }
+
+        datePicker.addOnPositiveButtonClickListener {
+            binding.date.text = dateFormat.format(it)
+            binding.day.text = dayFormat.format(it)
         }
     }
 }

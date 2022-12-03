@@ -2,4 +2,11 @@
     <string name="app_name">BeFit</string>
     <string name="open_calendar">Open calendar</string>
     <string name="calendar">Calendar</string>
+    <string name="settingsButton">Settings</string>
+    <string name="calendarButton">Calendar button</string>
+    <string name="logoImage">Logo image</string>
+    <string name="TopAppBar">Top app bar background</string>
+    <string name="ListContainer">Product list container</string>
+    <string name="date">Chosen date</string>
+    <string name="day">Chosen day</string>
 </resources>
