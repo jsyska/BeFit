@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.BeFit" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.BeFit" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -16,17 +16,11 @@
         <item name="android:windowLightStatusBar">
             true
         </item>
+    </style>
 
+    <style name="Theme.BeFit.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/primary</item>
-
-        <!-- Use windowSplashScreenAnimatedIcon to add either a drawable or an
-             animated drawable. One of these is required. -->
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_inset</item>
-        <!-- Required for animated icons -->
-        <item name="windowSplashScreenAnimationDuration">700</item>
-
-        <!-- Set the theme of the Activity that directly follows your splash screen. -->
-        <!-- Required -->
         <item name="postSplashScreenTheme">@style/Theme.BeFit</item>
     </style>
 
