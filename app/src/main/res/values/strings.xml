@@ -9,4 +9,5 @@
     <string name="ListContainer">Product list container</string>
     <string name="date">Chosen date</string>
     <string name="day">Chosen day</string>
+    <string name="backButton">Go back button</string>
 </resources>

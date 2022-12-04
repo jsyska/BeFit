@@ -1,6 +1,6 @@
 package com.example.befit
 
-import android.R.attr.timeZone
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -43,6 +43,11 @@ class MainActivity : AppCompatActivity() {
         datePicker.addOnPositiveButtonClickListener {
             binding.date.text = dateFormat.format(it)
             binding.day.text = dayFormat.format(it)
+        }
+
+        binding.settingsButton.setOnClickListener{
+            val intent = Intent(this,SettingsActivity::class.java)
+            startActivity(intent)
         }
     }
 }
