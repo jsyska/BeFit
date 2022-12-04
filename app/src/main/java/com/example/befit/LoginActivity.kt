@@ -3,8 +3,8 @@ package com.example.befit
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import com.example.befit.databinding.ActivityLoginBinding
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
@@ -32,13 +32,12 @@ class LoginActivity : AppCompatActivity() {
                     if (it.isSuccessful) {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
-                        Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(this, "Something went wrong. Please try again.", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.button, "Something went wrong. Please try again.", Snackbar.LENGTH_SHORT).show()
                     }
                 }
             } else {
-                Toast.makeText(this, "Please fill up all fields", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.button, "Please fill up all fields", Snackbar.LENGTH_SHORT).show()
             }
         }
     }
