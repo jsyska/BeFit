@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
     private val dateFormat = SimpleDateFormat("dd/MM/yy")
     private val dayFormat = SimpleDateFormat("EEEE")
 
-    private var _barcode: String = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,8 +31,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
@@ -81,10 +77,21 @@ class MainActivity : AppCompatActivity() {
             if (it.resultCode == Activity.RESULT_OK) {
                 val barcode = it?.data?.getStringExtra("BarcodeResult")
                 if (barcode != null) {
+                    FoodApi.retrofitService.getProperties(barcode).enqueue(object:
+                        Callback<FoodProperty> {
+                        override fun onFailure(call: Call<FoodProperty>, t: Throwable) {
+                            var _response = t.message
+                        }
+
+                        override fun onResponse(
+                            call: Call<FoodProperty>,
+                            response: Response<FoodProperty>
+                        ) {
+                            var _response = response
+                        }
+                    })
                 }
             }
         }
-
-
 }
 
