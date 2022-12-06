@@ -1,27 +1,20 @@
 package com.example.befit
 
-import android.Manifest
+import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import com.example.befit.databinding.ActivityMainBinding
 import com.example.befit.databinding.DialogAddProductBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,9 +23,7 @@ class MainActivity : AppCompatActivity() {
     private val dateFormat = SimpleDateFormat("dd/MM/yy")
     private val dayFormat = SimpleDateFormat("EEEE")
 
-    private lateinit var cameraExecutor: ExecutorService
-    private lateinit var barcodeBoxView: BarcodeBoxView
-
+    private var _barcode: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,100 +70,21 @@ class MainActivity : AppCompatActivity() {
 
 
             dialogBinding.scan.setOnClickListener{
-                dialogBinding.previewView.visibility = View.VISIBLE
-                cameraExecutor = Executors.newSingleThreadExecutor()
-
-                barcodeBoxView = BarcodeBoxView(this)
-                addContentView(barcodeBoxView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-
-                checkCameraPermission()
+                val i = Intent(this, CamActivity::class.java)
+                getContent.launch(i)
             }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        cameraExecutor.shutdown()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        checkIfCameraPermissionIsGranted()
-    }
-
-    private fun checkCameraPermission() {
-        try {
-            val requiredPermissions = arrayOf(Manifest.permission.CAMERA)
-            ActivityCompat.requestPermissions(this, requiredPermissions, 0)
-        } catch (e: IllegalArgumentException) {
-            checkIfCameraPermissionIsGranted()
-        }
-    }
-
-    private fun checkIfCameraPermissionIsGranted() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            startCamera()
-        } else {
-            MaterialAlertDialogBuilder(this)
-                .setTitle("Permission required")
-                .setMessage("This application needs to access the camera to process barcodes")
-                .setPositiveButton("Ok") { _, _ ->
-                    checkCameraPermission()
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val barcode = it?.data?.getStringExtra("BarcodeResult")
+                if (barcode != null) {
                 }
-                .setCancelable(false)
-                .create()
-                .apply {
-                    setCanceledOnTouchOutside(false)
-                    show()
-                }
-        }
-    }
-
-    private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-
-        cameraProviderFuture.addListener({
-            val cameraProvider = cameraProviderFuture.get()
-
-            val preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(dialogBinding.previewView.surfaceProvider)
-                }
-
-            val imageAnalyzer = ImageAnalysis.Builder()
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .build()
-                .also {
-                    it.setAnalyzer(
-                        cameraExecutor,
-                        BarCodeAnalyzer(
-                            this,
-                            barcodeBoxView,
-                            dialogBinding.previewView.width.toFloat(),
-                            dialogBinding.previewView.height.toFloat()
-                        )
-                    )
-                }
-
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-            try {
-                cameraProvider.unbindAll()
-
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageAnalyzer
-                )
-
-            } catch (exc: Exception) {
-                exc.printStackTrace()
             }
-        }, ContextCompat.getMainExecutor(this))
-    }
+        }
+
+
 }
 
