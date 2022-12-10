@@ -1,4 +1,4 @@
-package com.example.befit
+package com.example.befit.services
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -11,7 +11,7 @@ import retrofit2.http.Path
 private const val BASE_URL = "https://world.openfoodfacts.org/"
 
 private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
+    .addLast(KotlinJsonAdapterFactory())
     .build()
 
 private val retrofit = Retrofit.Builder()
@@ -22,7 +22,8 @@ private val retrofit = Retrofit.Builder()
 interface FoodApiService {
     @GET("api/v0/product/{barcode}")
     fun getProperties(@Path("barcode") barcode: String):
-            Call<FoodProperty>
+            Call<FoodApiResponse>
+
 }
 object FoodApi {
     val retrofitService: FoodApiService by lazy {

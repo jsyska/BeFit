@@ -3,12 +3,15 @@ package com.example.befit
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.example.befit.databinding.ActivityMainBinding
 import com.example.befit.databinding.DialogAddProductBinding
+import com.example.befit.services.FoodApi
+import com.example.befit.services.FoodApiResponse
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.Call
@@ -78,14 +81,14 @@ class MainActivity : AppCompatActivity() {
                 val barcode = it?.data?.getStringExtra("BarcodeResult")
                 if (barcode != null) {
                     FoodApi.retrofitService.getProperties(barcode).enqueue(object:
-                        Callback<FoodProperty> {
-                        override fun onFailure(call: Call<FoodProperty>, t: Throwable) {
+                        Callback<FoodApiResponse> {
+                        override fun onFailure(call: Call<FoodApiResponse>, t: Throwable) {
                             var _response = t.message
                         }
 
                         override fun onResponse(
-                            call: Call<FoodProperty>,
-                            response: Response<FoodProperty>
+                            call: Call<FoodApiResponse>,
+                            response: Response<FoodApiResponse>
                         ) {
                             var _response = response
                         }
