@@ -7,13 +7,10 @@
     tools:context=".SettingsActivity"
     android:background="@color/primary">
 
-
-
     <ImageView
         android:id="@+id/logo"
         android:layout_width="89dp"
         android:layout_height="66dp"
-
         android:layout_marginTop="44dp"
         android:contentDescription="@string/logoImage"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,5 +42,308 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RedundantDescriptionCheck" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="24dp"
+        app:dividerColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <TextView
+        android:id="@+id/weight"
+        android:layout_width="261dp"
+        android:layout_height="36dp"
+        android:gravity="center_vertical"
+        android:text="Weight: 84kg"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider2"
+        app:layout_constraintEnd_toStartOf="@+id/weightEdit"
+        app:layout_constraintStart_toStartOf="@+id/materialDivider1"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider1" />
+
+
+    <ImageButton
+        android:id="@+id/weightEdit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_baseline_chevron_right_24"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider2"
+        app:layout_constraintEnd_toEndOf="@+id/materialDivider1"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider1" />
+
+    <ImageButton
+        android:id="@+id/genderEdit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_baseline_chevron_right_24"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider3"
+        app:layout_constraintEnd_toEndOf="@+id/materialDivider2"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider2" />
+
+    <ImageButton
+        android:id="@+id/ageEdit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_baseline_chevron_right_24"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider4"
+        app:layout_constraintEnd_toEndOf="@+id/materialDivider3"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider3" />
+
+    <ImageButton
+        android:id="@+id/heightEdit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_baseline_chevron_right_24"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider5"
+        app:layout_constraintEnd_toEndOf="@+id/materialDivider4"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider4" />
+
+    <ImageButton
+        android:id="@+id/goalEdit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_baseline_chevron_right_24"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider6"
+        app:layout_constraintEnd_toEndOf="@+id/materialDivider5"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider5" />
+
+    <ImageButton
+        android:id="@+id/activityEdit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_baseline_chevron_right_24"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider7"
+        app:layout_constraintEnd_toEndOf="@+id/materialDivider6"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider6" />
+
+    <ImageButton
+        android:id="@+id/trainingsEdit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_baseline_chevron_right_24"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider8"
+        app:layout_constraintEnd_toEndOf="@+id/materialDivider7"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider7" />
+
+    <ImageButton
+        android:id="@+id/changeSpeedEdit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_baseline_chevron_right_24"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider9"
+        app:layout_constraintEnd_toEndOf="@+id/materialDivider8"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider8" />
+
+    <TextView
+        android:id="@+id/gender"
+        android:layout_width="261dp"
+        android:layout_height="36dp"
+        android:gravity="center_vertical"
+        android:text="Gender: Male"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider3"
+        app:layout_constraintEnd_toStartOf="@+id/genderEdit"
+        app:layout_constraintStart_toStartOf="@+id/materialDivider2"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider2" />
+
+    <TextView
+        android:id="@+id/age"
+        android:layout_width="261dp"
+        android:layout_height="36dp"
+        android:gravity="center_vertical"
+        android:text="Age: 21"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider4"
+        app:layout_constraintEnd_toStartOf="@+id/ageEdit"
+        app:layout_constraintStart_toStartOf="@+id/materialDivider3"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider3" />
+
+    <TextView
+        android:id="@+id/height"
+        android:layout_width="261dp"
+        android:layout_height="36dp"
+        android:gravity="center_vertical"
+        android:text="Height: 184"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider5"
+        app:layout_constraintEnd_toStartOf="@+id/heightEdit"
+        app:layout_constraintStart_toStartOf="@+id/materialDivider4"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider4" />
+
+    <TextView
+        android:id="@+id/goal"
+        android:layout_width="261dp"
+        android:layout_height="36dp"
+        android:gravity="center_vertical"
+        android:text="Goal: Lose weight"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider6"
+        app:layout_constraintEnd_toStartOf="@+id/goalEdit"
+        app:layout_constraintStart_toStartOf="@+id/materialDivider5"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider5" />
+
+    <TextView
+        android:id="@+id/activity"
+        android:layout_width="261dp"
+        android:layout_height="36dp"
+        android:gravity="center_vertical"
+        android:text="Daily activity: Low"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider7"
+        app:layout_constraintEnd_toStartOf="@+id/activityEdit"
+        app:layout_constraintStart_toStartOf="@+id/materialDivider6"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider6" />
+
+    <TextView
+        android:id="@+id/trainings"
+        android:layout_width="261dp"
+        android:layout_height="36dp"
+        android:gravity="center_vertical"
+        android:text="Trainings per week: 3-4"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider8"
+        app:layout_constraintEnd_toStartOf="@+id/trainingsEdit"
+        app:layout_constraintStart_toStartOf="@+id/materialDivider7"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider7" />
+
+    <TextView
+        android:id="@+id/changeSpeed"
+        android:layout_width="261dp"
+        android:layout_height="36dp"
+        android:gravity="center_vertical"
+        android:text="Change speed: 0.5kg / week"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider9"
+        app:layout_constraintEnd_toStartOf="@+id/changeSpeedEdit"
+        app:layout_constraintStart_toStartOf="@+id/materialDivider8"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider8" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="24dp"
+        app:dividerColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="184dp"
+        android:layout_marginEnd="24dp"
+        app:dividerColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="248dp"
+        android:layout_marginEnd="24dp"
+        app:dividerColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="316dp"
+        android:layout_marginEnd="24dp"
+        app:dividerColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="384dp"
+        android:layout_marginEnd="24dp"
+        app:dividerColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="448dp"
+        android:layout_marginEnd="24dp"
+        app:dividerColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="512dp"
+        android:layout_marginEnd="24dp"
+        app:dividerColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="576dp"
+        android:layout_marginEnd="24dp"
+        app:dividerColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

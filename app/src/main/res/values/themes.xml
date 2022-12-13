@@ -18,6 +18,10 @@
         </item>
     </style>
 
+    <style name="CustomNumberPickerTheme" parent="Theme.BeFit">
+        <item name="colorControlNormal">@android:color/transparent</item>
+    </style>
+
     <style name="Theme.BeFit.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/primary</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_inset</item>
