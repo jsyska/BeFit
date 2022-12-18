@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:animateLayoutChanges="true">
 
     <ImageView
         android:id="@+id/top_appbar"
@@ -48,18 +49,18 @@
         android:contentDescription="@string/date"
         android:text="23/10/22"
         android:textColor="@color/primary"
-        android:textSize="18dp"
+        android:textSize="16dp"
         app:layout_constraintBottom_toTopOf="@+id/day"
         app:layout_constraintEnd_toEndOf="@+id/logo"
-        app:layout_constraintHorizontal_bias="0.785"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="@+id/logo"
         app:layout_constraintTop_toBottomOf="@+id/logo"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="115dp"
+        android:layout_height="41dp"
         android:contentDescription="@string/day"
         android:text="Monday"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -125,5 +126,12 @@
         app:layout_constraintVertical_bias="0.402"
         app:srcCompat="@drawable/befit_logo" />
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toTopOf="@+id/logo"
+        android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
