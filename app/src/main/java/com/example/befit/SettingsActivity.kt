@@ -202,14 +202,12 @@ class SettingsActivity : AppCompatActivity() {
             singleDialogBinding = DialogNumberPickerBinding.inflate(LayoutInflater.from(binding.trainingsEdit.context))
 
             singleDialogBinding.picker.minValue = 0
-            singleDialogBinding.picker.maxValue = 3
+            singleDialogBinding.picker.maxValue = 7
             singleDialogBinding.picker.value = 0
-            val pickerVals = arrayOf("0", "1-3", "4-5", "6-7")
-            singleDialogBinding.picker.displayedValues = pickerVals
 
             dialog.setView(singleDialogBinding.root)
             dialog.setPositiveButton("Set"){ _, _ ->
-                val result = pickerVals[singleDialogBinding.picker.value]
+                val result = singleDialogBinding.picker.value.toString()
                 binding.trainings.text = "Trainings per week: $result"
                 userRef.child("trainingsPerWeek").setValue(result).addOnCompleteListener{
                     Toast.makeText(this,"Number of trainings updated successfully", Toast.LENGTH_SHORT).show()

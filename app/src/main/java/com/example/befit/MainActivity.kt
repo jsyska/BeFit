@@ -3,7 +3,6 @@ package com.example.befit
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
@@ -19,7 +18,6 @@ import com.example.befit.services.FoodApi
 import com.example.befit.services.FoodApiResponse
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -43,9 +41,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -54,6 +49,28 @@ class MainActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance()
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         val userRef = database.getReference("users").child(currentUserId.toString())
+
+
+        userRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                user = dataSnapshot.getValue(User::class.java)!!
+                val calories = user.calculateCaloricIntake()
+                binding.caloriesCount.text = "0/$calories"
+                val macronutrients = calculateMacronutrients(calories)
+                binding.proteinCount.text = "0/" + macronutrients["protein"]
+                binding.fatCount.text = "0/" + macronutrients["fat"]
+                binding.carbCount.text = "0/" + macronutrients["carb"]
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(baseContext,"An error occurred while fetching user Data!", Toast.LENGTH_SHORT)
+            }
+        })
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        binding.proteinsBar.progress = 80
+
 
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
@@ -93,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(baseContext,"An error occured while fetching user Data!", Toast.LENGTH_SHORT)
+                    Toast.makeText(baseContext,"An error occurred while fetching user Data!", Toast.LENGTH_SHORT).show()
                 }
             })
         }
@@ -193,6 +210,18 @@ class MainActivity : AppCompatActivity() {
                     })
                 }
             }
+        }
+
+        private fun calculateMacronutrients(calories: Int): Map<String, Int> {
+            val proteinGrams = (calories * 0.20) / 4  // Protein has 4 calories per gram
+            val fatGrams = (calories * 0.35) / 9  // Fat has 9 calories per gram
+            val carbGrams = (calories * 0.45) / 4  // Carbs have 4 calories per gram
+
+            return mapOf(
+                "protein" to proteinGrams.toInt(),
+                "fat" to fatGrams.toInt(),
+                "carb" to carbGrams.toInt()
+            )
         }
 }
 

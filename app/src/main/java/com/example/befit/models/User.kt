@@ -37,4 +37,37 @@ class User {
         this.trainingsPerWeek = null
         this.gender = null
     }
+
+    fun calculateCaloricIntake(): Int {
+
+        val physicalActivityLevel: Double = if(this.dailyActivity.toString() == "Low"){
+            1.5
+        } else if(this.dailyActivity.toString() == "Medium") {
+            1.8
+        } else {
+            2.1
+        }
+
+        val BMR: Double = if (this.gender!!.toString() == "Male") {
+            66.47 + (13.75 * this.weight!!.toDouble()) + (5.003 * this.height!!.toDouble()) - (6.755 * this.age!!.toInt())
+        } else {
+            655.1 + (9.563 * this.weight!!.toDouble()) + (1.85 * this.height!!.toDouble()) - (4.676 * this.age!!.toInt())
+        }
+
+        val caloricIntake = BMR * physicalActivityLevel
+
+        val weightChangePerDay = this.changeSpeed!!.toDouble() / 7.0
+
+        var caloricAdjustment: Double = weightChangePerDay * 7700.0 / 0.45359237
+
+        when (this.goal.toString()) {
+            "Lose weight" -> caloricAdjustment *= -1
+            "Maintain weight" -> caloricAdjustment = 0.0
+        }
+
+        val trainingAdjustment = this.trainingsPerWeek!!.toInt() * 500.0 / 7
+        return (caloricIntake + caloricAdjustment + trainingAdjustment).toInt()
+    }
+
+
 }

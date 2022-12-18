@@ -19,6 +19,120 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/calories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Calories"
+        android:textFontWeight="600"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_appbar" />
+
+    <TextView
+        android:id="@+id/protein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Protein"
+        android:textFontWeight="600"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="@+id/proteinsBar"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="@+id/proteinsBar"
+        app:layout_constraintTop_toBottomOf="@+id/caloriesBar" />
+
+    <TextView
+        android:id="@+id/fat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Fat"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="@+id/fatBar"
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toStartOf="@+id/fatBar"
+        app:layout_constraintTop_toBottomOf="@+id/caloriesBar" />
+
+    <TextView
+        android:id="@+id/carb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Carb"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="@+id/carbBar"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="@+id/carbBar"
+        app:layout_constraintTop_toBottomOf="@+id/caloriesBar" />
+
+    <ProgressBar
+        android:id="@+id/caloriesBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="352dp"
+        android:layout_height="18dp"
+        android:max="100"
+        android:progress="0"
+        android:scaleY="6"
+        android:progressTint="@color/progressBar"
+        app:layout_constraintBottom_toTopOf="@+id/list_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calories"
+        app:layout_constraintVertical_bias="0.057" />
+
+    <ProgressBar
+        android:id="@+id/proteinsBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="101dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:scaleY="6"
+        android:progressTint="@color/progressBar"
+        app:layout_constraintBottom_toTopOf="@+id/list_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.106"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/protein"
+        app:layout_constraintVertical_bias="0.192" />
+
+    <ProgressBar
+        android:id="@+id/fatBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="103dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:scaleY="6"
+        android:progressTint="@color/progressBar"
+        app:layout_constraintBottom_toTopOf="@+id/list_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fat"
+        app:layout_constraintVertical_bias="0.192" />
+
+    <ProgressBar
+        android:id="@+id/carbBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="103dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:scaleY="6"
+        android:progressTint="@color/progressBar"
+        app:layout_constraintBottom_toTopOf="@+id/list_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.893"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/carb"
+        app:layout_constraintVertical_bias="0.192" />
+
     <ImageView
         android:id="@+id/list_container"
         android:layout_width="match_parent"
@@ -59,8 +173,8 @@
 
     <TextView
         android:id="@+id/day"
-        android:layout_width="115dp"
-        android:layout_height="41dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/day"
         android:text="Monday"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -69,7 +183,7 @@
         android:textSize="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/top_appbar"
         app:layout_constraintEnd_toEndOf="@+id/logo"
-        app:layout_constraintHorizontal_bias="0.346"
+        app:layout_constraintHorizontal_bias="0.36"
         app:layout_constraintStart_toStartOf="@+id/logo" />
 
     <ImageButton
@@ -133,5 +247,61 @@
         android:indeterminate="true"
         app:layout_constraintBottom_toTopOf="@+id/logo"
         android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/caloriesCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1523/2315"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/caloriesBar"
+        app:layout_constraintEnd_toEndOf="@+id/caloriesBar"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/caloriesBar"
+        app:layout_constraintTop_toBottomOf="@+id/calories"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <TextView
+        android:id="@+id/proteinCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1523/2315"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/proteinsBar"
+        app:layout_constraintEnd_toEndOf="@+id/proteinsBar"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="@+id/proteinsBar"
+        app:layout_constraintTop_toTopOf="@+id/proteinsBar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/fatCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1523/2315"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fatBar"
+        app:layout_constraintEnd_toEndOf="@+id/fatBar"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="@+id/fatBar"
+        app:layout_constraintTop_toTopOf="@+id/fatBar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/carbCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1523/2315"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/carbBar"
+        app:layout_constraintEnd_toEndOf="@+id/carbBar"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="@+id/carbBar"
+        app:layout_constraintTop_toTopOf="@+id/carbBar"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
