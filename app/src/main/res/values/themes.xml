@@ -20,7 +20,9 @@
 
     <style name="CustomNumberPickerTheme" parent="Theme.BeFit">
         <item name="colorControlNormal">@android:color/transparent</item>
-        <item name="android:textColorPrimary">@color/white</item>
+        <item name="titleTextColor">@color/primary</item>
+        <item name="android:textColorPrimary">@color/primary</item>
+        <item name="android:textSize">30dp</item>
     </style>
 
     <style name="Theme.BeFit.Starting" parent="Theme.SplashScreen">
@@ -51,10 +53,7 @@
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="ThemeOverlay.BeFit.FullscreenContainer" parent="">
-        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
-        <item name="fullscreenTextColor">@color/light_blue_A200</item>
-    </style>
+
     <style name="Theme.BeFit.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

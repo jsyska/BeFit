@@ -20,4 +20,8 @@
         <item>4-5</item>
         <item>6-7</item>
     </string-array>
+    <string-array name="genders">
+        <item>Female</item>
+        <item>Male</item>
+    </string-array>
 </resources>

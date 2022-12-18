@@ -6,23 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.befit.R
-import com.example.befit.databinding.FragmentAgeBinding
+import com.example.befit.databinding.FragmentGenderBinding
+import com.example.befit.databinding.FragmentGoalBinding
 import com.example.befit.helpers.Animations
 import com.example.befit.helpers.TypeWriter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
-class AgeFragment : Fragment() {
-
-    private lateinit var binding: FragmentAgeBinding
+class GenderFragment : Fragment() {
+    private lateinit var binding: FragmentGenderBinding
     private lateinit var database: FirebaseDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        binding = FragmentAgeBinding.inflate(inflater, container, false)
+        binding = FragmentGenderBinding.inflate(inflater, container, false)
         val view = binding.root
 
         database = FirebaseDatabase.getInstance()
@@ -37,7 +36,7 @@ class AgeFragment : Fragment() {
 
         val typeWriter = TypeWriter(binding.text)
         typeWriter.setCharacterDelay(50, 150, 50)
-        typeWriter.setText("Enter your age:")
+        typeWriter.setText("Set your gender ")
         typeWriter.showText()
         typeWriter.setOnFinishedTypingListener {
             inputAnimator.fadeIn(600)
@@ -45,14 +44,14 @@ class AgeFragment : Fragment() {
         }
 
         binding.button.setOnClickListener{
-            if(binding.input.text.isNotEmpty()){
-                usersRef.child(currentUserId.toString()).child("age").setValue(binding.input.text.toString()).addOnCompleteListener{
+            if(binding.input.selectedItem != null){
+                usersRef.child(currentUserId.toString()).child("gender").setValue(binding.input.selectedItem.toString()).addOnCompleteListener {
                     typeWriter.deleteText()
                     inputAnimator.fadeOut(600)
                     buttonAnimator.fadeOut(600)
                     typeWriter.setOnFinishedDeletingListener {
                         activity?.supportFragmentManager?.beginTransaction()
-                            ?.replace(R.id.fragment_container, HeightFragment())
+                            ?.replace(R.id.fragment_container, GoalFragment())
                             ?.addToBackStack(null)
                             ?.commit()
                     }

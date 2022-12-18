@@ -9,9 +9,12 @@ import com.example.befit.R
 import com.example.befit.databinding.FragmentGoalBinding
 import com.example.befit.helpers.Animations
 import com.example.befit.helpers.TypeWriter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class GoalFragment : Fragment() {
     private lateinit var binding: FragmentGoalBinding
+    private lateinit var database: FirebaseDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,6 +22,11 @@ class GoalFragment : Fragment() {
     ): View? {
         binding = FragmentGoalBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        database = FirebaseDatabase.getInstance()
+        val usersRef = database.getReference("users")
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+
         binding.input.alpha = 0f
         binding.button.alpha = 0f
 
@@ -36,14 +44,16 @@ class GoalFragment : Fragment() {
 
         binding.button.setOnClickListener{
             if(binding.input.selectedItem != null){
-                typeWriter.deleteText()
-                inputAnimator.fadeOut(600)
-                buttonAnimator.fadeOut(600)
-                typeWriter.setOnFinishedDeletingListener {
-                    activity?.supportFragmentManager?.beginTransaction()
-                        ?.replace(R.id.fragment_container, DailyActivityFragment())
-                        ?.addToBackStack(null)
-                        ?.commit()
+                usersRef.child(currentUserId.toString()).child("goal").setValue(binding.input.selectedItem.toString()).addOnCompleteListener {
+                    typeWriter.deleteText()
+                    inputAnimator.fadeOut(600)
+                    buttonAnimator.fadeOut(600)
+                    typeWriter.setOnFinishedDeletingListener {
+                        activity?.supportFragmentManager?.beginTransaction()
+                            ?.replace(R.id.fragment_container, DailyActivityFragment())
+                            ?.addToBackStack(null)
+                            ?.commit()
+                    }
                 }
             }
         }

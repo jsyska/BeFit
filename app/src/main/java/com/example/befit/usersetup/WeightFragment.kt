@@ -1,27 +1,20 @@
 package com.example.befit.usersetup
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.widget.EditText
-import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import com.example.befit.R
-import com.example.befit.databinding.FragmentAgeBinding
-import com.example.befit.databinding.FragmentHeightBinding
 import com.example.befit.databinding.FragmentWeightBinding
-import com.example.befit.databinding.FragmentWelcomeBinding
 import com.example.befit.helpers.Animations
 import com.example.befit.helpers.TypeWriter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class WeightFragment : Fragment() {
     private lateinit var binding: FragmentWeightBinding
+    private lateinit var database: FirebaseDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +24,10 @@ class WeightFragment : Fragment() {
         val view = binding.root
         binding.input.alpha = 0f
         binding.button.alpha = 0f
+
+        database = FirebaseDatabase.getInstance()
+        val usersRef = database.getReference("users")
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
 
         val inputAnimator = Animations(binding.input)
         val buttonAnimator = Animations(binding.button)
@@ -45,15 +42,17 @@ class WeightFragment : Fragment() {
         }
 
         binding.button.setOnClickListener{
-            if(binding.input.text.isNotEmpty()){
-                typeWriter.deleteText()
-                inputAnimator.fadeOut(600)
-                buttonAnimator.fadeOut(600)
-                typeWriter.setOnFinishedDeletingListener {
-                    activity?.supportFragmentManager?.beginTransaction()
-                        ?.replace(R.id.fragment_container, GoalFragment())
-                        ?.addToBackStack(null)
-                        ?.commit()
+            if(binding.input.text.isNotEmpty()) {
+                usersRef.child(currentUserId.toString()).child("weight").setValue(binding.input.text.toString()).addOnCompleteListener {
+                    typeWriter.deleteText()
+                    inputAnimator.fadeOut(600)
+                    buttonAnimator.fadeOut(600)
+                    typeWriter.setOnFinishedDeletingListener {
+                        activity?.supportFragmentManager?.beginTransaction()
+                            ?.replace(R.id.fragment_container, GenderFragment())
+                            ?.addToBackStack(null)
+                            ?.commit()
+                    }
                 }
             }
         }

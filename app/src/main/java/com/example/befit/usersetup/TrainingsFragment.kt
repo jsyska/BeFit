@@ -1,32 +1,20 @@
 package com.example.befit.usersetup
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.MultiAutoCompleteTextView
-import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import com.example.befit.R
-import com.example.befit.databinding.FragmentAgeBinding
-import com.example.befit.databinding.FragmentDailyActivityBinding
-import com.example.befit.databinding.FragmentGoalBinding
-import com.example.befit.databinding.FragmentHeightBinding
 import com.example.befit.databinding.FragmentTrainingsBinding
-import com.example.befit.databinding.FragmentWelcomeBinding
 import com.example.befit.helpers.Animations
 import com.example.befit.helpers.TypeWriter
-import com.google.firebase.database.core.view.Change
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class TrainingsFragment : Fragment() {
     private lateinit var binding: FragmentTrainingsBinding
+    private lateinit var database: FirebaseDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +22,11 @@ class TrainingsFragment : Fragment() {
     ): View? {
         binding = FragmentTrainingsBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        database = FirebaseDatabase.getInstance()
+        val usersRef = database.getReference("users")
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+
         binding.input.alpha = 0f
         binding.button.alpha = 0f
 
@@ -51,14 +44,16 @@ class TrainingsFragment : Fragment() {
 
         binding.button.setOnClickListener{
             if(binding.input.selectedItem != null){
-                typeWriter.deleteText()
-                inputAnimator.fadeOut(600)
-                buttonAnimator.fadeOut(600)
-                typeWriter.setOnFinishedDeletingListener {
-                    activity?.supportFragmentManager?.beginTransaction()
-                        ?.replace(R.id.fragment_container, ChangeSpeedFragment())
-                        ?.addToBackStack(null)
-                        ?.commit()
+                usersRef.child(currentUserId.toString()).child("trainingsPerWeek").setValue(binding.input.selectedItem.toString()).addOnCompleteListener {
+                    typeWriter.deleteText()
+                    inputAnimator.fadeOut(600)
+                    buttonAnimator.fadeOut(600)
+                    typeWriter.setOnFinishedDeletingListener {
+                        activity?.supportFragmentManager?.beginTransaction()
+                            ?.replace(R.id.fragment_container, ChangeSpeedFragment())
+                            ?.addToBackStack(null)
+                            ?.commit()
+                    }
                 }
             }
         }
