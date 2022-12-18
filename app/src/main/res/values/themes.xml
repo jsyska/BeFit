@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.BeFit" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.BeFit" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -20,6 +20,7 @@
 
     <style name="CustomNumberPickerTheme" parent="Theme.BeFit">
         <item name="colorControlNormal">@android:color/transparent</item>
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
 
     <style name="Theme.BeFit.Starting" parent="Theme.SplashScreen">
@@ -35,6 +36,11 @@
         <item name="android:layout_marginBottom">15dp</item>
     </style>
 
+    <style name="ElevatedButton" parent="Widget.Material3.Button.ElevatedButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="LoginTextInputInnerFieldStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -44,4 +50,15 @@
         <item name="android:textSize">14sp</item>
         <item name="android:singleLine">true</item>
     </style>
+
+    <style name="ThemeOverlay.BeFit.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+    <style name="Theme.BeFit.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.BeFit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.BeFit.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

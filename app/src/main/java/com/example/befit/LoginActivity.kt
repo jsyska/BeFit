@@ -28,12 +28,12 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        binding.textView.setOnClickListener {
+        binding.SignUp.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
 
-        binding.button.setOnClickListener {
+        binding.SignIn.setOnClickListener {
             val email = binding.emailEt.text.toString()
             val pass = binding.passET.text.toString()
 
@@ -43,11 +43,11 @@ class LoginActivity : AppCompatActivity() {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                     } else {
-                        Snackbar.make(binding.button, "Something went wrong. Please try again.", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.SignIn, "Something went wrong. Please try again.", Snackbar.LENGTH_SHORT).show()
                     }
                 }
             } else {
-                Snackbar.make(binding.button, "Please fill up all fields", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.SignIn, "Please fill up all fields", Snackbar.LENGTH_SHORT).show()
             }
         }
 

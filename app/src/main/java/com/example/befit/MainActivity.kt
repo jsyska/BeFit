@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
                         Callback<FoodApiResponse> {
                         override fun onFailure(call: Call<FoodApiResponse>, t: Throwable) {
                             var _response = t.message
-                            Toast.makeText(dialogBinding.scan.context, "Unable to get product data.", Toast.LENGTH_SHORT)
+                            Toast.makeText(dialogBinding.scan.context, "Unable to get product data.", Toast.LENGTH_SHORT).show()
                         }
 
                         override fun onResponse(
@@ -146,10 +146,10 @@ class MainActivity : AppCompatActivity() {
                                     quantityDialog.setNegativeButton("Cancel", null);
                                     quantityDialog.show()
                                 } else{
-                                    Toast.makeText(dialogBinding.scan.context, "No product was found in database.", Toast.LENGTH_SHORT)
+                                    Toast.makeText(dialogBinding.scan.context, "No product was found in database.", Toast.LENGTH_SHORT).show()
                                 }
                             } else {
-                                Toast.makeText(dialogBinding.scan.context, "Something went wrong while making a request.", Toast.LENGTH_SHORT)
+                                Toast.makeText(dialogBinding.scan.context, "Something went wrong while making a request.", Toast.LENGTH_SHORT).show()
                             }
                         }
                     })

@@ -4,4 +4,20 @@
         <item>g</item>
         <item>ml</item>
     </string-array>
+    <string-array name="goals">
+        <item>Lose weight</item>
+        <item>Maintain weight</item>
+        <item>Gain weight</item>
+    </string-array>
+    <string-array name="dailyActivity">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
+    <string-array name="trainingsPerWeek">
+        <item>0</item>
+        <item>1-3</item>
+        <item>4-5</item>
+        <item>6-7</item>
+    </string-array>
 </resources>

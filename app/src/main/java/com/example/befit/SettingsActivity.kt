@@ -53,7 +53,7 @@ class SettingsActivity : AppCompatActivity() {
 
         binding.genderEdit.setOnClickListener {
             val dialog = MaterialAlertDialogBuilder(binding.genderEdit.context)
-            dialog.setTitle("Weight")
+            dialog.setTitle("Gender")
             singleDialogBinding = DialogNumberPickerBinding.inflate(LayoutInflater.from(binding.genderEdit.context))
 
             singleDialogBinding.picker.minValue = 0
@@ -95,7 +95,6 @@ class SettingsActivity : AppCompatActivity() {
             doubleDialogBinding.secondPicker.minValue = 0
             doubleDialogBinding.secondPicker.maxValue = 9
             doubleDialogBinding.secondPicker.value = 0
-
             dialog.setView(doubleDialogBinding.root)
             dialog.setPositiveButton("Set", null)
             dialog.setNegativeButton("Cancel", null);
@@ -139,7 +138,7 @@ class SettingsActivity : AppCompatActivity() {
 
         binding.trainingsEdit.setOnClickListener {
             val dialog = MaterialAlertDialogBuilder(binding.trainingsEdit.context)
-            dialog.setTitle("Daily activity")
+            dialog.setTitle("Trainings per week")
             singleDialogBinding = DialogNumberPickerBinding.inflate(LayoutInflater.from(binding.trainingsEdit.context))
 
             singleDialogBinding.picker.minValue = 0
