@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/amount"
+        android:id="@+id/amountView"
         style="@style/LoginTextInputOuterFieldStyle"
         android:layout_width="130dp"
         android:layout_height="66dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailEt"
+            android:id="@+id/amount"
             style="@style/LoginTextInputInnerFieldStyle"
             android:layout_width="match_parent"
             android:layout_height="54dp"
@@ -46,11 +46,11 @@
         app:boxStrokeColor="@color/primary"
         app:helperTextTextColor="@color/black"
         app:hintTextColor="@color/primary"
-        app:layout_constraintBottom_toBottomOf="@+id/amount"
+        app:layout_constraintBottom_toBottomOf="@+id/amountView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.171"
-        app:layout_constraintStart_toEndOf="@+id/amount"
-        app:layout_constraintTop_toTopOf="@+id/amount"
+        app:layout_constraintStart_toEndOf="@+id/amountView"
+        app:layout_constraintTop_toTopOf="@+id/amountView"
         app:layout_constraintVertical_bias="0.481"
         tools:context=".MainActivity">
 

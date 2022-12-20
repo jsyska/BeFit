@@ -1,4 +1,4 @@
-package com.example.befit
+package com.example.befit.barcodescanner
 
 import android.Manifest
 import android.content.Intent
@@ -17,8 +17,6 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.befit.databinding.ActivityCamBinding
-import com.example.befit.databinding.ActivityLoginBinding
-import com.example.befit.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors

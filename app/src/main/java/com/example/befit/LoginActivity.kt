@@ -13,6 +13,7 @@ import android.view.ViewTreeObserver
 import android.animation.ObjectAnimator
 import android.view.animation.DecelerateInterpolator
 import androidx.core.animation.doOnEnd
+import com.example.befit.usersetup.SignUpActivity
 
 class LoginActivity : AppCompatActivity() {
 

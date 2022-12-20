@@ -10,9 +10,13 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import com.example.befit.adapters.ProductAdapter
+import com.example.befit.barcodescanner.CamActivity
+import com.example.befit.database.DatabaseManager
 import com.example.befit.databinding.ActivityMainBinding
 import com.example.befit.databinding.DialogAddProductBinding
 import com.example.befit.databinding.DialogSelectQuantityBinding
+import com.example.befit.models.Product
 import com.example.befit.models.User
 import com.example.befit.services.FoodApi
 import com.example.befit.services.FoodApiResponse
@@ -23,6 +27,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,6 +45,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
     private lateinit var user: User
+    private lateinit var productAdapter: ProductAdapter
+    private lateinit var currentUserId: String
+
+    private var totalKcal: Int = 0
+    private var totalProtein: Int = 0
+    private var totalFat: Int = 0
+    private var totalCarb: Int = 0
+
+    private var maxKcal: Int = 0
+    private var maxProtein: Int = 0
+    private var maxFat: Int = 0
+    private var maxCarb: Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,31 +65,15 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        firebaseAuth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance()
-        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
-        val userRef = database.getReference("users").child(currentUserId.toString())
-
-
-        userRef.addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                user = dataSnapshot.getValue(User::class.java)!!
-                val calories = user.calculateCaloricIntake()
-                binding.caloriesCount.text = "0/$calories"
-                val macronutrients = calculateMacronutrients(calories)
-                binding.proteinCount.text = "0/" + macronutrients["protein"]
-                binding.fatCount.text = "0/" + macronutrients["fat"]
-                binding.carbCount.text = "0/" + macronutrients["carb"]
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(baseContext,"An error occurred while fetching user Data!", Toast.LENGTH_SHORT)
-            }
-        })
-
+        //hiding app bar
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        binding.proteinsBar.progress = 80
+        // downloading user data from firebase
+        firebaseAuth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+        currentUserId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        val userRef = database.getReference("users").child(currentUserId)
+
 
 
         val datePicker =
@@ -81,6 +85,34 @@ class MainActivity : AppCompatActivity() {
         binding.date.text = dateFormat.format(datePicker.selection)
         binding.day.text = dayFormat.format(datePicker.selection)
 
+        //downloading products for selected date and setting recycle view
+        val productDao = DatabaseManager.getInstance(this).productDao()
+        CoroutineScope(Dispatchers.Main).launch {
+            val products = productDao.getProductsForDate(binding.date.text.toString(), currentUserId)
+            productAdapter = ProductAdapter(products, this@MainActivity)
+            binding.productList.adapter = productAdapter
+            calculateTotalNutrition(products)
+        }
+
+        //updating calories data when user data changes
+        userRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                user = dataSnapshot.getValue(User::class.java)!!
+                val calories = user.calculateCaloricIntake()
+                val macronutrients = calculateMacronutrients(calories)
+
+                maxKcal = calories
+                maxProtein = macronutrients["protein"]!!.toInt()
+                maxFat = macronutrients["fat"]!!.toInt()
+                maxCarb = macronutrients["carb"]!!.toInt()
+                updateNutritionBars()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(baseContext,"An error occurred while fetching user Data!", Toast.LENGTH_SHORT)
+            }
+        })
+
         binding.calendarButton.setOnClickListener {
             datePicker.show(supportFragmentManager, "tag")
         }
@@ -88,7 +120,15 @@ class MainActivity : AppCompatActivity() {
         datePicker.addOnPositiveButtonClickListener {
             binding.date.text = dateFormat.format(it)
             binding.day.text = dayFormat.format(it)
+            CoroutineScope(Dispatchers.IO).launch {
+                val products = productDao.getProductsForDate(binding.date.text.toString(), currentUserId)
+                productAdapter = ProductAdapter(products, this@MainActivity)
+                binding.productList.adapter = productAdapter
+                calculateTotalNutrition(products)
+                updateNutritionBars()
+            }
         }
+
 
         binding.settingsButton.setOnClickListener {
             binding.progressBar.visibility = View.VISIBLE
@@ -115,38 +155,10 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
+
+
         binding.copyButton.setOnClickListener{
-            FoodApi.retrofitService.getProperties("80177173").enqueue(object:
-                Callback<FoodApiResponse> {
-                override fun onFailure(call: Call<FoodApiResponse>, t: Throwable) {
-                    var _response = t.message
-                }
-
-                override fun onResponse(
-                    call: Call<FoodApiResponse>,
-                    response: Response<FoodApiResponse>
-                ) {
-                    var _response: Response<FoodApiResponse> = response
-                    if(_response.isSuccessful){
-
-                        if(_response.body()?.Status == 1){
-                            val quantityDialog = MaterialAlertDialogBuilder(binding.copyButton.context)
-                            quantityDialog.setTitle(_response.body()?.Product?.ProductName)
-                            val view = layoutInflater.inflate(R.layout.dialog_select_quantity, null);
-                            quantityDialogBinding = DialogSelectQuantityBinding.inflate(LayoutInflater.from(binding.copyButton.context))
-                            quantityDialog.setView(quantityDialogBinding.root)
-                            quantityDialog.setPositiveButton("Ok", null)
-                            quantityDialog.setNegativeButton("Cancel", null);
-                            quantityDialog.show()
-                        } else{
-                            Toast.makeText(binding.copyButton.context, "No product was found in database.", Toast.LENGTH_SHORT)
-                        }
-                    } else {
-                        Toast.makeText(binding.copyButton.context, "Something went wrong while making a request.", Toast.LENGTH_SHORT)
-                    }
-
-                }
-            })
+            //TODO
         }
 
         binding.addButton.setOnClickListener {
@@ -158,7 +170,6 @@ class MainActivity : AppCompatActivity() {
             dialog.setPositiveButton("Ok", null)
             dialog.setNegativeButton("Cancel", null);
             dialog.show()
-
 
             dialogBinding.scan.setOnClickListener{
                 val i = Intent(this, CamActivity::class.java)
@@ -175,7 +186,6 @@ class MainActivity : AppCompatActivity() {
                     FoodApi.retrofitService.getProperties(barcode).enqueue(object:
                         Callback<FoodApiResponse> {
                         override fun onFailure(call: Call<FoodApiResponse>, t: Throwable) {
-                            var _response = t.message
                             Toast.makeText(dialogBinding.scan.context, "Unable to get product data.", Toast.LENGTH_SHORT).show()
                             binding.progressBar.visibility = View.INVISIBLE
                         }
@@ -189,25 +199,55 @@ class MainActivity : AppCompatActivity() {
                             if(_response.isSuccessful){
 
                                 if(_response.body()?.Status == 1){
+                                    val responseProduct = _response.body()?.Product!!
+
                                     binding.progressBar.visibility = View.INVISIBLE
+
                                     val quantityDialog = MaterialAlertDialogBuilder(dialogBinding.scan.context)
-                                    quantityDialog.setTitle(_response.body()?.Product?.ProductName)
-                                    val view = layoutInflater.inflate(R.layout.dialog_select_quantity, null);
+                                    quantityDialog.setTitle(responseProduct.ProductName)
                                     quantityDialogBinding = DialogSelectQuantityBinding.inflate(LayoutInflater.from(dialogBinding.scan.context))
                                     val adapter = ArrayAdapter(dialogBinding.scan.context, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.product_units))
                                     quantityDialogBinding.unitView.setAdapter(adapter)
                                     quantityDialog.setView(quantityDialogBinding.root)
-                                    quantityDialog.setPositiveButton("Ok", null)
+                                    quantityDialog.setPositiveButton("Add"){ _, _ ->
+                                        val amountVal = quantityDialogBinding.amount.text.toString().toInt()
+                                        val product = Product(0,
+                                            responseProduct.ProductName,
+                                            binding.date.text.toString(),
+                                            responseProduct.Nutriments.Carbohydrates100g,
+                                            responseProduct.Nutriments.EnergyKcal100g,
+                                            responseProduct.Nutriments.Fat100g,
+                                            responseProduct.Nutriments.Proteins100g,
+                                            quantityDialogBinding.amount.text.toString().toInt(),
+                                            currentUserId,
+                                            responseProduct.Nutriments.EnergyKcal100g * amountVal / 100,
+                                            responseProduct.Nutriments.Fat100g * amountVal / 100,
+                                            responseProduct.Nutriments.Proteins100g * amountVal / 100,
+                                            responseProduct.Nutriments.Carbohydrates100g * amountVal / 100)
+
+                                        productAdapter.addProduct(product)
+                                        val productDao = DatabaseManager.getInstance(applicationContext).productDao()
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            productDao.insert(product)
+                                            val products = productDao.getProductsForDate(binding.date.text.toString(), currentUserId)
+                                            calculateTotalNutrition(products)
+                                            updateNutritionBars()
+                                        }
+                                        Toast.makeText(applicationContext, responseProduct.ProductName + " successfully added" ,Toast.LENGTH_SHORT).show()
+                                    }
                                     quantityDialog.setNegativeButton("Cancel", null);
                                     quantityDialog.show()
                                 } else{
-                                    Toast.makeText(dialogBinding.scan.context, "No product was found in database.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(dialogBinding.scan.context, "Sorry, we don't have data about this product.", Toast.LENGTH_SHORT).show()
                                 }
                             } else {
-                                Toast.makeText(dialogBinding.scan.context, "Something went wrong while making a request.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(dialogBinding.scan.context, "We couldn't fetch data about this product.", Toast.LENGTH_SHORT).show()
                             }
                         }
                     })
+                }
+                else{
+                    binding.progressBar.visibility = View.INVISIBLE
                 }
             }
         }
@@ -223,5 +263,37 @@ class MainActivity : AppCompatActivity() {
                 "carb" to carbGrams.toInt()
             )
         }
+
+    public fun calculateTotalNutrition(products: MutableList<Product>) {
+        var totalCalories = 0
+        var totalProteins = 0
+        var totalFats = 0
+        var totalCarbs = 0
+        for (product in products) {
+            totalCalories += product.kcal.toInt()
+            totalProteins += product.protein.toInt()
+            totalFats += product.fat.toInt()
+            totalCarbs += product.carb.toInt()
+        }
+        this.totalKcal = totalCalories
+        this.totalFat = totalFats
+        this.totalProtein = totalProteins
+        this.totalCarb = totalCarbs
+    }
+
+    public fun updateNutritionBars(){
+        binding.caloriesCount.text = "$totalKcal/$maxKcal"
+        binding.proteinCount.text = "$totalProtein/$maxProtein"
+        binding.fatCount.text = "$totalFat/$maxFat"
+        binding.carbCount.text = "$totalCarb/$maxCarb"
+        binding.caloriesBar.max = maxKcal
+        binding.caloriesBar.progress = totalKcal
+        binding.proteinsBar.max = maxProtein
+        binding.proteinsBar.progress = totalProtein
+        binding.fatBar.max = maxFat
+        binding.fatBar.progress = totalFat
+        binding.carbBar.max = maxCarb
+        binding.carbBar.progress = totalCarb
+    }
 }
 

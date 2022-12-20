@@ -1,4 +1,4 @@
-package com.example.befit
+package com.example.befit.barcodescanner
 
 import android.annotation.SuppressLint
 import androidx.camera.core.ImageAnalysis

@@ -1,13 +1,13 @@
-package com.example.befit
+package com.example.befit.usersetup
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.example.befit.LoginActivity
 import com.example.befit.databinding.ActivitySignUpBinding
 import com.example.befit.models.User
-import com.example.befit.usersetup.UserSetupActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
