@@ -42,7 +42,7 @@ class SignUpActivity : AppCompatActivity() {
 
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            Toast.makeText(this, "Signed up successfully", Toast.LENGTH_SHORT)
+                            Toast.makeText(this, "Signed up successfully", Toast.LENGTH_SHORT).show()
                             val user = firebaseAuth.currentUser
                             val uid = user!!.uid
                             database.getReference("users").child(uid).setValue(User(email)).addOnCompleteListener {
@@ -55,7 +55,7 @@ class SignUpActivity : AppCompatActivity() {
                             }
                         } else {
                             binding.progressBar.visibility = View.INVISIBLE
-                            Snackbar.make(binding.SignUp, "Something went wrong while creating account. Please try again.", Snackbar.LENGTH_SHORT)
+                            Snackbar.make(binding.SignUp, "Something went wrong while creating account. Please try again.", Snackbar.LENGTH_SHORT).show()
                         }
                     }
                 } else {

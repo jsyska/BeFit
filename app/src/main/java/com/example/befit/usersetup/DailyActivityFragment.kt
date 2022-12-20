@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.befit.R
 import com.example.befit.databinding.FragmentDailyActivityBinding
-import com.example.befit.helpers.Animations
+import com.example.befit.helpers.FadesAnimations
 import com.example.befit.helpers.TypeWriter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -30,8 +30,8 @@ class DailyActivityFragment : Fragment() {
         binding.input.alpha = 0f
         binding.button.alpha = 0f
 
-        val inputAnimator = Animations(binding.input)
-        val buttonAnimator = Animations(binding.button)
+        val inputAnimator = FadesAnimations(binding.input)
+        val buttonAnimator = FadesAnimations(binding.button)
 
         val typeWriter = TypeWriter(binding.text)
         typeWriter.setCharacterDelay(50, 150, 50)

@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.befit.MainActivity
 import com.example.befit.databinding.FragmentFinishedSetupBinding
-import com.example.befit.helpers.Animations
+import com.example.befit.helpers.FadesAnimations
 import com.example.befit.helpers.TypeWriter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -26,7 +26,7 @@ class FinishedSetupFragment : Fragment() {
         val view = binding.root
         binding.logo.alpha = 0f
 
-        val logoAnimator = Animations(binding.logo)
+        val logoAnimator = FadesAnimations(binding.logo)
 
         val typeWriter = TypeWriter(binding.text)
         typeWriter.setCharacterDelay(50, 150, 50)

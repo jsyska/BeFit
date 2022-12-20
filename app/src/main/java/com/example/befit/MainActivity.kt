@@ -14,8 +14,8 @@ import com.example.befit.adapters.ProductAdapter
 import com.example.befit.barcodescanner.CamActivity
 import com.example.befit.database.DatabaseManager
 import com.example.befit.databinding.ActivityMainBinding
-import com.example.befit.databinding.DialogAddProductBinding
 import com.example.befit.databinding.DialogSelectQuantityBinding
+import com.example.befit.helpers.ProgressBarAnimation
 import com.example.befit.models.Product
 import com.example.befit.models.User
 import com.example.befit.services.FoodApi
@@ -35,10 +35,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var dialogBinding: DialogAddProductBinding
     private lateinit var quantityDialogBinding: DialogSelectQuantityBinding
     private val dateFormat = SimpleDateFormat("dd/MM/yy")
     private val dayFormat = SimpleDateFormat("EEEE")
@@ -180,27 +180,17 @@ class MainActivity : AppCompatActivity() {
                 binding.productList.adapter = productAdapter
                 calculateTotalNutrition(updatedProducts)
                 updateNutritionBars()
+                Toast.makeText(binding.copyButton.context, "Products successfully copied", Toast.LENGTH_SHORT).show()
             }
         }
 
-        binding.addButton.setOnClickListener {
-            val dialog = MaterialAlertDialogBuilder(this)
-            dialog.setTitle("Add product")
-            val view = layoutInflater.inflate(R.layout.dialog_add_product, null);
-            dialogBinding = DialogAddProductBinding.inflate(LayoutInflater.from(this))
-            dialog.setView(dialogBinding.root)
-            dialog.setPositiveButton("Ok", null)
-            dialog.setNegativeButton("Cancel", null);
-            dialog.show()
-
-            dialogBinding.scan.setOnClickListener{
-                val i = Intent(this, CamActivity::class.java)
-                getContent.launch(i)
-            }
+        binding.scanButton.setOnClickListener{
+            val i = Intent(this, CamActivity::class.java)
+            getBarcodeContent.launch(i)
         }
     }
 
-    private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    private val getBarcodeContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val barcode = it?.data?.getStringExtra("BarcodeResult")
                 if (barcode != null) {
@@ -208,7 +198,7 @@ class MainActivity : AppCompatActivity() {
                     FoodApi.retrofitService.getProperties(barcode).enqueue(object:
                         Callback<FoodApiResponse> {
                         override fun onFailure(call: Call<FoodApiResponse>, t: Throwable) {
-                            Toast.makeText(dialogBinding.scan.context, "Unable to get product data.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(binding.scanButton.context, "Unable to get product data.", Toast.LENGTH_SHORT).show()
                             binding.progressBar.visibility = View.INVISIBLE
                         }
 
@@ -225,10 +215,10 @@ class MainActivity : AppCompatActivity() {
 
                                     binding.progressBar.visibility = View.INVISIBLE
 
-                                    val quantityDialog = MaterialAlertDialogBuilder(dialogBinding.scan.context)
+                                    val quantityDialog = MaterialAlertDialogBuilder(binding.scanButton.context)
                                     quantityDialog.setTitle(responseProduct.ProductName)
-                                    quantityDialogBinding = DialogSelectQuantityBinding.inflate(LayoutInflater.from(dialogBinding.scan.context))
-                                    val adapter = ArrayAdapter(dialogBinding.scan.context, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.product_units))
+                                    quantityDialogBinding = DialogSelectQuantityBinding.inflate(LayoutInflater.from(binding.scanButton.context))
+                                    val adapter = ArrayAdapter(binding.scanButton.context, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.product_units))
                                     quantityDialogBinding.unitView.setAdapter(adapter)
                                     quantityDialog.setView(quantityDialogBinding.root)
                                     quantityDialog.setPositiveButton("Add"){ _, _ ->
@@ -260,10 +250,11 @@ class MainActivity : AppCompatActivity() {
                                     quantityDialog.setNegativeButton("Cancel", null);
                                     quantityDialog.show()
                                 } else{
-                                    Toast.makeText(dialogBinding.scan.context, "Sorry, we don't have data about this product.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(binding.scanButton.context, "Sorry, we don't have data about this product.", Toast.LENGTH_SHORT).show()
+                                    binding.progressBar.visibility = View.INVISIBLE
                                 }
                             } else {
-                                Toast.makeText(dialogBinding.scan.context, "We couldn't fetch data about this product.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(binding.scanButton.context, "We couldn't fetch data about this product.", Toast.LENGTH_SHORT).show()
                             }
                         }
                     })
@@ -297,6 +288,24 @@ class MainActivity : AppCompatActivity() {
             totalFats += product.fat.toInt()
             totalCarbs += product.carb.toInt()
         }
+
+        //set animations for progress bars
+        val animCalories = ProgressBarAnimation(binding.caloriesBar, this.totalKcal.toFloat(), totalCalories.toFloat())
+        animCalories.duration = 1000;
+        binding.caloriesBar.startAnimation(animCalories)
+
+        val animProteins = ProgressBarAnimation(binding.proteinsBar, this.totalProtein.toFloat(), totalProteins.toFloat())
+        animProteins.duration = 1000;
+        binding.proteinsBar.startAnimation(animProteins)
+
+        val animFats = ProgressBarAnimation(binding.fatBar, this.totalFat.toFloat(), totalFats.toFloat())
+        animFats.duration = 1000;
+        binding.fatBar.startAnimation(animFats)
+
+        val animCarbs = ProgressBarAnimation(binding.carbBar, this.totalCarb.toFloat(), totalCarbs.toFloat())
+        animCarbs.duration = 1000;
+        binding.carbBar.startAnimation(animCarbs)
+
         this.totalKcal = totalCalories
         this.totalFat = totalFats
         this.totalProtein = totalProteins
@@ -317,5 +326,6 @@ class MainActivity : AppCompatActivity() {
         binding.carbBar.max = maxCarb
         binding.carbBar.progress = totalCarb
     }
+
 }
 

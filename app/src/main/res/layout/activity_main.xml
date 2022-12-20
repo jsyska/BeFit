@@ -207,14 +207,14 @@
         tools:ignore="RedundantDescriptionCheck" />
 
     <ImageButton
-        android:id="@+id/addButton"
+        android:id="@+id/scanButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="44dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/calendarButton"
-        android:src="@drawable/ic_baseline_add_circle_48"
+        android:src="@drawable/ic_baseline_document_scanner_48"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/list_container"
         tools:ignore="RedundantDescriptionCheck" />

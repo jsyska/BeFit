@@ -2,12 +2,11 @@ package com.example.befit.helpers
 
 import android.animation.ObjectAnimator
 import android.view.View
-import android.widget.TextView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class Animations(private val view: View) {
+class FadesAnimations(private val view: View) {
 
     fun fadeIn(duration: Long) {
         GlobalScope.launch(Dispatchers.Main) {
