@@ -5,19 +5,19 @@ import com.squareup.moshi.Json
 
 @Entity
 data class Product(
-    @PrimaryKey(autoGenerate = true) val id: Long,
-    val name: String,
-    val date: String,
-    val Carbohydrates100g: Double,
-    val EnergyKcal100g: Double,
-    val Fat100g: Double,
-    val Proteins100g: Double,
-    val weight: Int,
-    val userID: String,
-    val kcal: Double,
-    val fat: Double,
-    val protein: Double,
-    val carb: Double
+    @PrimaryKey(autoGenerate = true) var id: Long,
+    var name: String,
+    var date: String,
+    var Carbohydrates100g: Double,
+    var EnergyKcal100g: Double,
+    var Fat100g: Double,
+    var Proteins100g: Double,
+    var weight: Int,
+    var userID: String,
+    var kcal: Double,
+    var fat: Double,
+    var protein: Double,
+    var carb: Double
     )
 
 @Dao
@@ -25,6 +25,9 @@ interface ProductDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(product: Product)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAll(items: MutableList<Product>)
 
     @Query("SELECT * FROM product WHERE date = :date and userID = :userID")
     fun getProductsForDate(date: String, userID: String): MutableList<Product>

@@ -155,10 +155,32 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
-
+        val copyDatePicker =
+            MaterialDatePicker.Builder.datePicker()
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .setTitleText("Select date")
+                .build()
 
         binding.copyButton.setOnClickListener{
-            //TODO
+            copyDatePicker.show(supportFragmentManager, "tag")
+        }
+
+        copyDatePicker.addOnPositiveButtonClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                var products = productDao.getProductsForDate(dateFormat.format(it), currentUserId)
+
+                for (product in products) {
+                    product.id = 0
+                    product.date = binding.date.text.toString()
+                }
+                productDao.insertAll(products)
+
+                val updatedProducts = productDao.getProductsForDate(binding.date.text.toString(), currentUserId)
+                productAdapter = ProductAdapter(updatedProducts, this@MainActivity)
+                binding.productList.adapter = productAdapter
+                calculateTotalNutrition(updatedProducts)
+                updateNutritionBars()
+            }
         }
 
         binding.addButton.setOnClickListener {
